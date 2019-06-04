@@ -4,34 +4,59 @@ import re
 import operator
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
+import time
 
-#chrome driver 설정
-driver = webdriver.Chrome("**NEED CHROME DRIVER'S PATH**")
-driver.get("https://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001")
 
-global rawData
-rawData = []
+def chromeDriverSetting():
+    global path
+    #chrome driver 설정(headless : 팝업창 없는 크롤링)
+    options = webdriver.ChromeOptions()
+    options.add_argument('headless')
+    options.add_argument('window-size=1920x1080')
+    options.add_argument("disable-gpu")
+    driver = webdriver.Chrome(path, options=options)
+    return driver
+
+def regExp(rawData):
+    Stringtype = ''.join(rawData)
+    Stringtype = re.sub(r'\s+', ' ', Stringtype).strip().replace('\n', '').replace('\t', '')
+    Stringtype = Stringtype.replace('"', '').replace("'", '').replace("동영상기사", '').replace("사진", '')\
+                  .replace("포토",'').replace('한경로보뉴스', '').replace('뉴스', '').replace('[', '')\
+                  .replace(']', '').replace("속보","").replace("오늘","").replace("오늘의","")
+    koreanWords = re.findall(r'\b[가-힣]{2,15}\b', Stringtype)
+    return koreanWords
 
 def WordCount(t):
     frequency = {}
     wordcount = {}
+    wordCloudWords = []
     match_pattern = t
 
     for word in match_pattern:
         count = frequency.get(word, 0)
         frequency[word] = count + 1
 
-    frequency_list = frequency.keys()
-    wordCloudWords = []
-    for words in frequency_list:
+    for words in frequency.keys():
         wordcount.update({words: frequency[words]})
         wordcount2 = sorted(wordcount.items(), key=operator.itemgetter(1), reverse=True)
         wordCloudWords.append(words)
-    return ([wordcount2[i] for i in range(1, 31)])
 
+    SortedWords = ([wordcount2[i] for i in range(1, 31)])
+    #print("------sorted words-------")
+    #print(SortedWords)
+    #print("-------------------------")
+    return SortedWords
 
-try:
-    for i in range(2, 12):  # 2 12
+def wordCloud(koreanWords):
+    wordcloud = WordCloud(font_path='C:\Windows\Fonts\Applegothic.ttf',
+                         background_color='white', width=1600, height=1200).generate(' '.join(koreanWords))
+    plt.imshow(wordcloud, interpolation='bilinear')
+    plt.axis("off")
+    plt.show()
+    return
+
+def crawler(driver, rawData, start = 2, end = 12):
+    for i in range(start, end):
         s1 = driver.page_source
         s2 = BeautifulSoup(s1, "html.parser")
         s3 = s2.find("ul", class_="type06_headline")
@@ -42,36 +67,51 @@ try:
 
         driver.find_element_by_css_selector("#main_content > div.paging > a:nth-child(" + str(i) + ")").click()
 
-        if (i == 11):
-            for x in range(1, 2): #1 10    #만약 해당 페이지 이후가 없으면 넘어가도록 exception 처리 필요
-                for a in range(3, 13): #3 13
-                    s1 = driver.page_source
-                    s2 = BeautifulSoup(s1, "html.parser")
-                    s3 = s2.find("ul", class_="type06_headline")
-                    s4 = s3.find_all("a", class_="nclicks(fls.list)")
+    return driver
 
-                    for b in s4:
-                        rawData.append(b.text)
 
-                    driver.find_element_by_css_selector("#main_content > div.paging > a:nth-child(" + str(a) + ")").click()
+def crawling(driver):
+    try:
+        global crawlingPage
+        rawData = []
+        driver.get("https://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001")
 
-    Stringtype = ''.join(rawData)
-    Stringtype = re.sub(r'\s+', ' ', Stringtype).strip().replace('\n', '').replace('\t', '')
-    Stringtype = Stringtype.replace('"', '').replace("'", '').replace("동영상기사", '').replace("사진", '').replace("포토",
-                                                                                                             '').replace(
-        '한경로보뉴스', '').replace('뉴스', '').replace('[', '').replace(']', '')
-    korean = re.findall(r'\b[가-힣]{2,15}\b', Stringtype)
+        driver = crawler(driver,rawData)
+        while crawlingPage > 1:
+            crawler(driver, rawData, 3,13)
+            crawlingPage -= 1
 
-    SortedWords = (WordCount(korean))
-    print("------sorted words-------")
-    print(SortedWords)
-    print("-------------------------")
+        return rawData
 
-    wordcloud = WordCloud(font_path='C:\Windows\Fonts\Applegothic.ttf',
-                          background_color='white', width=4000, height=3200).generate(' '.join(korean))
-    plt.imshow(wordcloud, interpolation='bilinear')
-    plt.axis("off")
-    plt.show()
+    except:
+        print("인터넷이 연결되어 있지 않거나, 새벽 12시가 지나 네이버 기사가 초기화 되어, 입력한값 만큼의 기사가 없습니다.")
+        print("")
+        print("30초 후 재시작합니다.")
 
-finally:
-    driver.close()
+    finally:
+        driver.close()
+
+def trendSearch():
+    global condition
+    driver = chromeDriverSetting()
+    rawData = crawling(driver)
+    koreanWords = regExp(rawData)
+    #WordCount(koreanWords)
+    wordCloud(koreanWords)
+    condition = False
+    return
+
+
+if __name__ == "__main__":
+    condition = True
+    crawlingPage = 2  # 1당 10페이지(신문기사 제목 200개) 크롤링
+    path = "** Need Chrome Driver Path **"# chromedriver path설정
+
+    while True:
+        try:
+            trendSearch()
+        except:
+            pass
+        time.sleep(30)
+        if condition: continue
+        break
