@@ -1,0 +1,1 @@
+python **trendCloud.pyÀÇ path ÀÔ·Â**
