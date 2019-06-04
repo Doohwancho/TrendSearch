@@ -1,1 +1,1 @@
-python **trendCloud.pyÀÇ path ÀÔ·Â**
+python **Insert path to trendCloud.py**

@@ -83,7 +83,7 @@ def trendSearch():
 if __name__ == "__main__":
     condition = True
     crawlingPage = 2  # 1당 10페이지(신문기사 제목 200개) 크롤링
-    path = r"C:\Users\조두환\Desktop\Tools\chromedriver_win32\chromedriver.exe" # chromedriver path설정
+    path = "**Insert path to chromedriver.exe**" #크롬 드라이버 path 설정
 
     while True:
         try:
