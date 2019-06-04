@@ -26,27 +26,6 @@ def regExp(rawData):
     koreanWords = re.findall(r'\b[가-힣]{2,15}\b', Stringtype)
     return koreanWords
 
-def WordCount(t):
-    frequency = {}
-    wordcount = {}
-    wordCloudWords = []
-    match_pattern = t
-
-    for word in match_pattern:
-        count = frequency.get(word, 0)
-        frequency[word] = count + 1
-
-    for words in frequency.keys():
-        wordcount.update({words: frequency[words]})
-        wordcount2 = sorted(wordcount.items(), key=operator.itemgetter(1), reverse=True)
-        wordCloudWords.append(words)
-
-    SortedWords = ([wordcount2[i] for i in range(1, 31)])
-    #print("------sorted words-------")
-    #print(SortedWords)
-    #print("-------------------------")
-    return SortedWords
-
 def wordCloud(koreanWords):
     wordcloud = WordCloud(font_path='C:\Windows\Fonts\Applegothic.ttf',
                          background_color='white', width=1600, height=1200).generate(' '.join(koreanWords))
@@ -96,7 +75,6 @@ def trendSearch():
     driver = chromeDriverSetting()
     rawData = crawling(driver)
     koreanWords = regExp(rawData)
-    #WordCount(koreanWords)
     wordCloud(koreanWords)
     condition = False
     return
@@ -105,7 +83,7 @@ def trendSearch():
 if __name__ == "__main__":
     condition = True
     crawlingPage = 2  # 1당 10페이지(신문기사 제목 200개) 크롤링
-    path = "** Need Chrome Driver Path **"# chromedriver path설정
+    path = r"C:\Users\조두환\Desktop\Tools\chromedriver_win32\chromedriver.exe" # chromedriver path설정
 
     while True:
         try:

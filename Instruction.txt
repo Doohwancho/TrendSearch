@@ -54,3 +54,31 @@ https://jesus-in-me.tistory.com/6
 https://mastmanban.tistory.com/977
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+만약 각 단어가 정확히 몇번씩 나왔는지 궁금하면 아래 코드 참고
+
+def WordCount(t):
+    frequency = {}
+    wordcount = {}
+    wordCloudWords = []
+    match_pattern = t
+
+    for word in match_pattern:
+        count = frequency.get(word, 0)
+        frequency[word] = count + 1
+
+    for words in frequency.keys():
+        wordcount.update({words: frequency[words]})
+        wordcount2 = sorted(wordcount.items(), key=operator.itemgetter(1), reverse=True)
+        wordCloudWords.append(words)
+
+    SortedWords = ([wordcount2[i] for i in range(1, 31)])
+    #print("------sorted words-------")
+    #print(SortedWords)
+    #print("-------------------------")
+    return SortedWords
+
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
