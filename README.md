@@ -16,7 +16,9 @@
    
 3. 부팅시 자동 시작 설정
 
-    첨부파일 중 trendSearchAutoStart.bat파일이 있다. 우클릭-편집 후, trendCloud.py의 path를 입력해 준다. 다음, window+R 키를 누르고 실행창에서 shell:startup를 치면 시작프로그램 파일에 들어가게 된다. 이 곳에 첨부된 trendSearchAutoStart.bat을 넣어준다.
+    첨부파일 중 trendSearchAutoStart.bat파일이 있다. 우클릭-편집 후, trendCloud.py의 path를 입력해 준다. 다음, window+R 키를 누르고 실행창에서     shell:startup를 치면 시작프로그램 파일에 들어가게 된다. 이 곳에 첨부된 trendSearchAutoStart.bat을 넣어준다.
+    만약 실행시 cmd창이 뜨는것이 싫다면, cmd창을 숨길 수 있다. 아래 블로그 참조
+	http://fendee.egloos.com/10724476
 
 
 ###########################################################################################
