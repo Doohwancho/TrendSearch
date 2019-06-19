@@ -2,14 +2,12 @@
 
 컴퓨터를 키면 실시간 가장 핫한 키워드를 자동으로 시각화 해주는 프로그램
 
+trendCloud.py이 실행 프로그램
+
 ###########################################################################################
 
 **사용전 세팅**
 
-0. API & 모듈 다운로드
-
-    pip install을 사용하여 selenium, beautiuflsoup, matplotlib, wordcloud 인스톨
-    
 1. chrome driver 다운로드 & 설정
 
     크롬 드라이버 다운로드시, 크롬 버전과 맞는 것을 다운받아야 한다. 또한 path = "**Insert path to chromedriver.exe**"에서 chrome driver의 위치를 설정해 주어야 한다.
