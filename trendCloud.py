@@ -1,7 +1,6 @@
 from selenium import webdriver
 from bs4 import BeautifulSoup
 import re
-import operator
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 import time
