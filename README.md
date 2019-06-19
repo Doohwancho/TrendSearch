@@ -10,17 +10,20 @@
 
 1. chrome driver 다운로드 & 설정
 
-    크롬 드라이버 다운로드시, 크롬 버전과 맞는 것을 다운받아야 한다. 또한 path = "**Insert path to chromedriver.exe**"에서 chrome driver의 위치를 설정해 주어야 한다.
+    크롬 드라이버 다운로드시, 크롬 버전과 맞는 것을 다운받아야 한다. 
+    웹사이트 주소 : http://chromedriver.chromium.org/downloads
+    또한 path = "**Insert path to chromedriver.exe**"에서 chrome driver의 위치를 설정해 주어야 한다.
 
 2. 애플고딕체 다운로드 & path 설정
 
-    시각화를 WordCloud API를 통해서 하는데, 외국에서 만든 API이다보니, 보통 한국 글씨체는 에러난다. 따라서 첨부된 AppleGothic.ttf을 윈도우10 기준, C:\Windows\Fonts 안에 넣어야 WordCloud가 돌아간다.
+    시각화를 WordCloud API를 통해서 하는데, 외국에서 만든 API이다보니, 보통 한국 글씨체는 에러난다. 
+    따라서 첨부된 AppleGothic.ttf을 윈도우10 기준, C:\Windows\Fonts 안에 넣어야 WordCloud가 돌아간다.
    
 3. 부팅시 자동 시작 설정
 
     첨부파일 중 trendSearchAutoStart.bat파일이 있다. 우클릭-편집 후, trendCloud.py의 path를 입력해 준다. 다음, window+R 키를 누르고 실행창에서     shell:startup를 치면 시작프로그램 파일에 들어가게 된다. 이 곳에 첨부된 trendSearchAutoStart.bat을 넣어준다.
-    만약 실행시 cmd창이 뜨는것이 싫다면, cmd창을 숨길 수 있다. 아래 블로그 참조
-	http://fendee.egloos.com/10724476
+    만약 실행시 cmd창이 뜨는것이 싫다면, cmd창을 숨길 수 있다.
+    참조 블로그 주소 : http://fendee.egloos.com/10724476
 
 
 ###########################################################################################
