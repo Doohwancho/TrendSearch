@@ -1,1 +1,0 @@
-python **Insert path to trendCloud.py**

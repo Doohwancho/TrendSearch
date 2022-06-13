@@ -1,4 +1,6 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 import re
 import matplotlib.pyplot as plt
@@ -7,13 +9,12 @@ import time
 
 
 def chromeDriverSetting():
-    global path
     #chrome driver 설정(headless : 팝업창 없는 크롤링)
     options = webdriver.ChromeOptions()
     options.add_argument('headless')
     options.add_argument('window-size=1920x1080')
     options.add_argument("disable-gpu")
-    driver = webdriver.Chrome(path, options=options)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     return driver
 
 def regExp(rawData):
@@ -26,7 +27,7 @@ def regExp(rawData):
     return koreanWords
 
 def wordCloud(koreanWords):
-    wordcloud = WordCloud(font_path='C:\Windows\Fonts\Applegothic.ttf',
+    wordcloud = WordCloud(font_path='./Applegothic.ttf',
                          background_color='white', width=1600, height=1200).generate(' '.join(koreanWords))
     plt.imshow(wordcloud, interpolation='bilinear')
     plt.axis("off")
@@ -82,7 +83,6 @@ def trendSearch():
 if __name__ == "__main__":
     condition = True
     crawlingPage = 3  # 1당 10페이지(신문기사 제목 200개) 크롤링
-    path = "**Insert path to chromedriver.exe**" #크롬 드라이버 path 설정
 
     while True:
         try:
