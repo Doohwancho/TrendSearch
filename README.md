@@ -35,9 +35,10 @@ ver 1.03<br/>
 3. if __name__ == "__main__"
 4. font library 호환성 
 5. crawling 
-6. regex
-7. refactoring 
-8. bat파일로 python 실행
+6. html, css element 
+7. regex
+8. refactoring 
+9. bat파일로 python 실행
 
 
 
@@ -48,3 +49,8 @@ ver 1.03<br/>
 3. web driver manager - manipulate chrome
 4. matplotlib - dependency for wordcloud
 5. wordcloud - draw wordcloud
+
+
+# More?
+
+1. feat: wordcloud의 글자를 클릭하면, 관련 기사를 보여준다. 

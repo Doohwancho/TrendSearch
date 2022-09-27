@@ -2,4 +2,4 @@
 
 source /opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh
 conda activate tf
-python /Users/cho-cho/dev/tools/TrendSearch.py/trendCloud.py
+python /Users/cho-cho/dev/tools/TrendSearch.py/trendCloud.py &

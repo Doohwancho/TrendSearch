@@ -9,7 +9,6 @@ import time
 
 
 def chromeDriverSetting():
-    print('chromeDriverSetting')
     #chrome driver 설정(headless : 팝업창 없는 크롤링)
     options = webdriver.ChromeOptions()
     options.add_argument('headless')
@@ -19,7 +18,6 @@ def chromeDriverSetting():
     return driver
 
 def regExp(rawData):
-    print('regExp')
     Stringtype = ''.join(rawData)
     Stringtype = re.sub(r'\s+', ' ', Stringtype).strip().replace('\n', '').replace('\t', '')
     Stringtype = Stringtype.replace('"', '').replace("'", '').replace("동영상기사", '').replace("사진", '')\
@@ -29,21 +27,14 @@ def regExp(rawData):
     return koreanWords
 
 def wordCloud(koreanWords):
-    print('wordcloud')
-    print(koreanWords)
     wordcloud = WordCloud(font_path='./Applegothic.ttf',
                          background_color='white', width=1600, height=1200).generate(' '.join(koreanWords)) #error: 여기에서 안넘어감
-    print(1)
     plt.imshow(wordcloud, interpolation='bilinear')
-    print(2)
     plt.axis("off")
-    print(3)
     plt.show()
-    print(4)
     return
 
 def crawler(driver, rawData, start = 2, end = 12):
-    print('crawler')
     for i in range(start, end):
         s1 = driver.page_source
         s2 = BeautifulSoup(s1, "html.parser")
@@ -60,7 +51,6 @@ def crawler(driver, rawData, start = 2, end = 12):
 
 
 def crawling(driver):
-    print('crawling')
     try:
         global crawlingPage
         rawData = []
@@ -76,7 +66,7 @@ def crawling(driver):
     except:
         print("인터넷이 연결되어 있지 않거나, 새벽 12시가 지나 네이버 기사가 초기화 되어, 입력한값 만큼의 기사가 없습니다.")
         print("")
-        print("30초 후 재시작합니다.")
+        print("10초 후 재시작합니다.")
 
     finally:
         driver.close()
@@ -87,7 +77,6 @@ def trendSearch():
     rawData = crawling(driver)
     koreanWords = regExp(rawData)
     wordCloud(koreanWords)
-    print('end of wordcloud')
     condition = False
     return
 
@@ -96,11 +85,9 @@ if __name__ == "__main__":
     condition = True
     crawlingPage = 3  # 1당 10페이지(신문기사 제목 200개) 크롤링
 
-    while True:
+    while condition:
         try:
             trendSearch()
         except:
             pass
-        time.sleep(30)
-        if condition: continue
-        break
+        time.sleep(10)
