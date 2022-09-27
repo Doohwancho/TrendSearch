@@ -2,15 +2,11 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
-import re
-import matplotlib.pyplot as plt
 from wordcloud import WordCloud
+from config import * 
+import matplotlib.pyplot as plt
+import re
 import time
-import os
-
-
-FILE = os.path.dirname(__file__)
-FONT_PATH = os.environ.get('FONT_PATH', os.path.join(FILE, 'Applegothic.ttf'))
 
 
 def chromeDriverSetting():
@@ -60,42 +56,30 @@ def crawler(driver, rawData, start = 2, end = 12):
 
 def crawling(driver):
     try:
-        global crawlingPage
+        global CRAWLING_PAGE
         rawData = []
         driver.get("https://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001")
 
         driver = crawler(driver,rawData)
-        while crawlingPage > 1:
+        while CRAWLING_PAGE > 1:
             crawler(driver, rawData, 3,13)
-            crawlingPage -= 1
+            CRAWLING_PAGE -= 1
 
         return rawData
-
     except:
         print("인터넷이 연결되어 있지 않거나, 새벽 12시가 지나 네이버 기사가 초기화 되어, 입력한값 만큼의 기사가 없습니다.")
-        print("")
-        print("10초 후 재시작합니다.")
-
     finally:
         driver.close()
-
-def trendSearch():
-    global condition
-    driver = chromeDriverSetting()
-    rawData = crawling(driver)
-    filteredKoreanWords = regExp(rawData)
-    wordCloud(filteredKoreanWords)
-    condition = False
-    return
+        driver.quit()
 
 
 if __name__ == "__main__":
-    condition = True
-    crawlingPage = 3  # 1당 10페이지(신문기사 제목 200개) 크롤링
-
-    while condition:
-        try:
-            trendSearch()
-        except:
-            pass
-        time.sleep(10)
+    try:
+        driver = chromeDriverSetting()
+        rawData = crawling(driver)
+        filteredKoreanWords = regExp(rawData)
+        wordCloud(filteredKoreanWords)
+    except Exception as e:
+        print("예외가 발생했습니다.", e)
+    finally:
+        driver.quit()        
