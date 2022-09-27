@@ -27,3 +27,24 @@ ver 1.03<br/>
     2. refactor: depreciated code: webdriver.Chrome();<br/>
     3. refactor: relative path for AppleGothic.ttf font<br/>
     4. auto start on boot deleted due to inconveniency in setting<br/>
+
+# Concepts
+
+1. python virtual env
+2. requirements.txt 
+3. if __name__ == "__main__"
+4. font library 호환성 
+5. crawling 
+6. regex
+7. refactoring 
+8. bat파일로 python 실행
+
+
+
+# Library
+
+1. selenium - crawling
+2. beautifulsoup4 - crawling 
+3. web driver manager - manipulate chrome
+4. matplotlib - dependency for wordcloud
+5. wordcloud - draw wordcloud
