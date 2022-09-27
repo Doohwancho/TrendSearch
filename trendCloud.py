@@ -17,17 +17,21 @@ def chromeDriverSetting():
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     return driver
 
+def customFilter(string, filtering_words):
+    return [str for str in string if all(str not in sub for sub in filtering_words)]
+
 def regExp(rawData):
-    Stringtype = ''.join(rawData)
-    Stringtype = re.sub(r'\s+', ' ', Stringtype).strip().replace('\n', '').replace('\t', '')
-    Stringtype = Stringtype.replace('"', '').replace("'", '').replace("동영상기사", '').replace("사진", '')\
-                  .replace("포토",'').replace('한경로보뉴스', '').replace('뉴스', '').replace('[', '')\
-                  .replace(']', '').replace("속보","").replace("오늘","").replace("오늘의","")
-    koreanWords = re.findall(r'\b[가-힣]{2,15}\b', Stringtype)
-    return koreanWords
+    arrayToString = ''.join(rawData)
+    refinedData = re.sub(r'\s+', ' ',arrayToString).strip().replace('\n', '').replace('\t', '')
+    koreanFiltered = re.findall(r'\b[가-힣]{2,15}\b', refinedData)
+    filtering_words = ['동영상','기사','동영상기사','사진','포토','뉴스','오늘','속보']
+    filteredKoreanWords = customFilter(koreanFiltered, filtering_words)
+
+    return filteredKoreanWords
 
 def wordCloud(koreanWords):
-    wordcloud = WordCloud(font_path='./Applegothic.ttf',
+    print(koreanWords)
+    wordcloud = WordCloud(font_path='Applegothic.ttf',
                          background_color='white', width=1600, height=1200).generate(' '.join(koreanWords)) #error: 여기에서 안넘어감
     plt.imshow(wordcloud, interpolation='bilinear')
     plt.axis("off")
@@ -75,8 +79,8 @@ def trendSearch():
     global condition
     driver = chromeDriverSetting()
     rawData = crawling(driver)
-    koreanWords = regExp(rawData)
-    wordCloud(koreanWords)
+    filteredKoreanWords = regExp(rawData)
+    wordCloud(filteredKoreanWords)
     condition = False
     return
 

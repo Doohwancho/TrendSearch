@@ -12,8 +12,6 @@
 3. python trendCloud.py<br/>
 
 <br/>
-<br/>
-<br/>
 
 # Update
 ver 1.01<br/>
@@ -36,10 +34,10 @@ ver 1.03<br/>
 4. font library 호환성 
 5. crawling 
 6. html, css element 
-7. regex
-8. refactoring 
-9. bat파일로 python 실행
-
+7. data preprocessing
+8. regex
+9. refactoring 
+10. bat파일로 python 실행
 
 
 # Library
