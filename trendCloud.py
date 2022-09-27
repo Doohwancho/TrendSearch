@@ -6,6 +6,11 @@ import re
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 import time
+import os
+
+
+FILE = os.path.dirname(__file__)
+FONT_PATH = os.environ.get('FONT_PATH', os.path.join(FILE, 'Applegothic.ttf'))
 
 
 def chromeDriverSetting():
@@ -21,18 +26,17 @@ def customFilter(string, filtering_words):
     return [str for str in string if all(str not in sub for sub in filtering_words)]
 
 def regExp(rawData):
-    arrayToString = ''.join(rawData)
-    refinedData = re.sub(r'\s+', ' ',arrayToString).strip().replace('\n', '').replace('\t', '')
-    koreanFiltered = re.findall(r'\b[가-힣]{2,15}\b', refinedData)
+    arrayToString = ''.join(rawData) #array to string 
+    refinedData = re.sub(r'\s+', ' ', arrayToString).strip().replace('\n', '').replace('\t', '') #string to string 
+    koreanFiltered = re.findall(r'\b[가-힣]{2,15}\b', refinedData) #string to array 
     filtering_words = ['동영상','기사','동영상기사','사진','포토','뉴스','오늘','속보']
     filteredKoreanWords = customFilter(koreanFiltered, filtering_words)
 
     return filteredKoreanWords
 
 def wordCloud(koreanWords):
-    print(koreanWords)
-    wordcloud = WordCloud(font_path='Applegothic.ttf',
-                         background_color='white', width=1600, height=1200).generate(' '.join(koreanWords)) #error: 여기에서 안넘어감
+    wordcloud = WordCloud(font_path=FONT_PATH,
+                         background_color='white', width=1600, height=1200).generate(' '.join(koreanWords)) 
     plt.imshow(wordcloud, interpolation='bilinear')
     plt.axis("off")
     plt.show()
@@ -49,7 +53,7 @@ def crawler(driver, rawData, start = 2, end = 12):
             rawData.append(j.text)
 
         driver.find_element_by_css_selector("#main_content > div.paging > a:nth-child(" + str(i) + ")").click()
-        # driver.find_element(by=By.CSS_SELECTOR, value="#main_content > div.paging > a:nth-child(" + str(i) + ")").click()
+        #@Deprecated. change it to  driver.find_element(by=By.CSS_SELECTOR, value="#main_content > div.paging > a:nth-child(" + str(i) + ")").click()
 
     return driver
 

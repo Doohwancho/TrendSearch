@@ -38,7 +38,7 @@ ver 1.03<br/>
 8. regex
 9. refactoring 
 10. bat파일로 python 실행
-
+11. os.path
 
 # Library
 
@@ -51,4 +51,5 @@ ver 1.03<br/>
 
 # More?
 
-1. feat: wordcloud의 글자를 클릭하면, 관련 기사를 보여준다. 
+1. feat: wordcloud의 글자를 클릭하면, 관련 기사를 보여준다.
+2. refactor: data preprocessing optimize. array -> string -> array -> string should STOP! 
