@@ -6,16 +6,18 @@ from wordcloud import WordCloud
 from config import * 
 import matplotlib.pyplot as plt
 import re
-import time
 
 
 def chromeDriverSetting():
     #chrome driver 설정(headless : 팝업창 없는 크롤링)
     options = webdriver.ChromeOptions()
-    options.add_argument('headless')
     options.add_argument('window-size=1920x1080')
     options.add_argument("disable-gpu")
+    
+    if(HIDE_BROWSER_WHILE_CRAWLING):
+        options.add_argument('headless')
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    
     return driver
 
 def customFilter(string, filtering_words):
@@ -25,14 +27,13 @@ def regExp(rawData):
     arrayToString = ''.join(rawData) #array to string 
     refinedData = re.sub(r'\s+', ' ', arrayToString).strip().replace('\n', '').replace('\t', '') #string to string 
     koreanFiltered = re.findall(r'\b[가-힣]{2,15}\b', refinedData) #string to array 
-    filtering_words = ['동영상','기사','동영상기사','사진','포토','뉴스','오늘','속보']
-    filteredKoreanWords = customFilter(koreanFiltered, filtering_words)
+    filteredKoreanWords = customFilter(koreanFiltered, FILTERING_WORDS)
 
     return filteredKoreanWords
 
 def wordCloud(koreanWords):
-    wordcloud = WordCloud(font_path=FONT_PATH,
-                         background_color='white', width=1600, height=1200).generate(' '.join(koreanWords)) 
+    wordcloud = WordCloud(font_path=FONT_PATH, max_words=MAX_WORDS,
+                         background_color=BACKGROUND_COLOR, width=WIDTH_SIZE, height=HEIGHT_SIZE).generate(' '.join(koreanWords)) 
     plt.imshow(wordcloud, interpolation='bilinear')
     plt.axis("off")
     plt.show()
@@ -49,21 +50,20 @@ def crawler(driver, rawData, start = 2, end = 12):
             rawData.append(j.text)
 
         driver.find_element_by_css_selector("#main_content > div.paging > a:nth-child(" + str(i) + ")").click()
-        #@Deprecated. change it to  driver.find_element(by=By.CSS_SELECTOR, value="#main_content > div.paging > a:nth-child(" + str(i) + ")").click()
-
+        #driver.find_element(by=By.CSS_SELECTOR, value="#main_content > div.paging > a:nth-child(" + str(i) + ")").click()
     return driver
 
 
 def crawling(driver):
     try:
-        global CRAWLING_PAGE
+        numberOfPageToCrawl = CRAWLING_PAGE
         rawData = []
         driver.get("https://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001")
 
         driver = crawler(driver,rawData)
-        while CRAWLING_PAGE > 1:
+        while numberOfPageToCrawl > 1:
             crawler(driver, rawData, 3,13)
-            CRAWLING_PAGE -= 1
+            numberOfPageToCrawl -= 1
 
         return rawData
     except:
@@ -82,4 +82,4 @@ if __name__ == "__main__":
     except Exception as e:
         print("예외가 발생했습니다.", e)
     finally:
-        driver.quit()        
+        driver.quit()
