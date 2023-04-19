@@ -7,49 +7,26 @@
 <br/>
 
 # How to install and run?
-1. git clone https://github.com/Doohwancho/TrendSearch.py<br/>
-2. pip3 install -r requirements.txt<br/>
-3. python trendCloud.py<br/>
+
+1. git clone https://github.com/Doohwancho/TrendSearch.py
+2. pip3 install -r requirements.txt
+3. python trendCloud.py
 
 <br/>
 
 # Update
-ver 1.01<br/>
-영어기사 제거, cmd창 숨김 기능 추가, 부팅시 자동시작 설정<br/>
+ver 1.01
+1. 영어기사 제거
+2. cmd창 숨김 기능 추가
+3. 부팅시 자동시작 설정
 
-ver 1.02<br/>
-.exe(배포판 생성)은... 에러. 시도중.<br/>
+ver 1.02
+.exe(배포판 생성)은... 에러.
+시도중.
 
-ver 1.03<br/>
-    1. dependencies -> requirements.txt<br/>
-    2. refactor: depreciated code: webdriver.Chrome();<br/>
-    3. refactor: relative path for AppleGothic.ttf font<br/>
-    4. auto start on boot deleted due to inconveniency in setting<br/>
+ver 1.03
+1. dependencies -> requirements.txt
+2. refactor: depreciated code: webdriver.Chrome();
+3. refactor: relative path for AppleGothic.ttf font
+4. auto start on boot deleted due to inconveniency in setting
 
-# Concepts
-
-1. python virtual env
-2. requirements.txt 
-3. if __name__ == "__main__"
-4. font library 호환성 
-5. crawling 
-6. html, css element 
-7. data preprocessing
-8. regex
-9. refactoring 
-10. bat파일로 python 실행
-11. os.path
-
-# Library
-
-1. selenium - crawling
-2. beautifulsoup4 - crawling 
-3. web driver manager - manipulate chrome
-4. matplotlib - dependency for wordcloud
-5. wordcloud - draw wordcloud
-
-
-# More?
-
-1. feat: wordcloud의 글자를 클릭하면, 관련 기사를 보여준다.
-2. refactor: data preprocessing optimize. array -> string -> array -> string should STOP! 
