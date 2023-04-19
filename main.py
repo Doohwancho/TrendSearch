@@ -87,16 +87,11 @@ def crawling(driver):
 
 
 def main():
-    startTime = time.time()
     driver = None
     try:
         driver = chromeDriverSetting()
         rawData = crawling(driver)
         filteredKoreanWords = regExp(rawData)
-
-        endTime = time.time()
-        print("실행시간: ", endTime - startTime)
-
         wordCloud(filteredKoreanWords)
     except Exception as e:
         print("예외가 발생했습니다.", e)
