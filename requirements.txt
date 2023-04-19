@@ -18,7 +18,7 @@ charset-normalizer==2.0.12
 click==8.0.4
 colorama==0.4.5
 contourpy==1.0.5
-cryptography==37.0.2
+cryptography==39.0.1
 cycler @ file:///home/conda/feedstock_root/build_artifacts/cycler_1635519461629/work
 debugpy @ file:///Users/runner/miniforge3/conda-bld/debugpy_1649586398338/work
 decorator @ file:///home/conda/feedstock_root/build_artifacts/decorator_1641555617451/work
