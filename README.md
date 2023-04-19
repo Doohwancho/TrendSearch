@@ -8,9 +8,8 @@
 
 # How to install and run?
 
-1. git clone https://github.com/Doohwancho/TrendSearch.py
-2. pip3 install -r requirements.txt
-3. python main.py
+1. pip3 install -r requirements.txt
+2. python main.py
 
 <br/>
 
@@ -18,10 +17,9 @@
 
 ## ver 1.01
 1. feat: 영어기사 제거
-2. optimization: crawling 도중 command 창 숨김 기능 추가
-3. optimization: disable-gpu while crawling
+2. feat: crawling 도중 command 창 숨김 기능 추가
+3. optimization: chrome driver options
 4. build: dependencies -> requirements.txt
 5. refactor: depreciated code: webdriver.Chrome();
 6. refactor: configuration option separated into config.py
 7. refactor: relative path for AppleGothic.ttf font
-

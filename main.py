@@ -6,14 +6,19 @@ from wordcloud import WordCloud
 from config import *
 import matplotlib.pyplot as plt
 import re
+import time
 
 def get_chrome_options():
     options = webdriver.ChromeOptions()
-    options.add_argument('window-size=1920x1080')
-    options.add_argument("disable-gpu")
 
     if HIDE_BROWSER_WHILE_CRAWLING:
         options.add_argument('headless')
+
+    options.add_argument('window-size=1920x1080')
+    options.add_argument("--no-sandbox")
+    options.add_argument("disable-gpu")
+    options.add_argument("--disable-extensions")
+    options.add_argument("--disable-dev-shm-usage")
 
     return options
 
@@ -28,8 +33,8 @@ def chromeDriverSetting():
 
     return driver
 
-def customFilter(string, filtering_words):
-    return [str for str in string if all(str not in sub for sub in filtering_words)]
+def customFilter(words, filtering_words):
+    return [word for word in words if all(word not in censor for censor in filtering_words)]
 
 def regExp(rawData):
     arrayToString = ''.join(rawData) #array to string
@@ -82,11 +87,16 @@ def crawling(driver):
 
 
 def main():
+    startTime = time.time()
     driver = None
     try:
         driver = chromeDriverSetting()
         rawData = crawling(driver)
         filteredKoreanWords = regExp(rawData)
+
+        endTime = time.time()
+        print("실행시간: ", endTime - startTime)
+
         wordCloud(filteredKoreanWords)
     except Exception as e:
         print("예외가 발생했습니다.", e)
@@ -96,3 +106,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

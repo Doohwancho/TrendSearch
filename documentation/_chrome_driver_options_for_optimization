@@ -1,0 +1,11 @@
+ 1.  `options.add_argument('headless')`: This line adds the 'headless' argument to the Chrome WebDriver options. When running in headless mode, the browser doesn't display the graphical user interface, making it faster and more suitable for automated testing or web scraping tasks.
+
+2.  `options.add_argument('window-size=1920x1080')`: This line sets the window size of the Chrome WebDriver to 1920x1080 pixels. Specifying a fixed window size can help maintain consistency across different test runs or scraping tasks.
+
+3.  `options.add_argument("--no-sandbox")`: This line disables the sandbox mode for the Chrome WebDriver. The sandbox is a security feature that isolates browser processes, but it can cause issues in some environments, such as running inside a Docker container. Disabling the sandbox might improve performance and compatibility, but it also reduces security.
+
+4.  `options.add_argument("disable-gpu")`: This line disables the use of the GPU for rendering in the Chrome WebDriver. Disabling GPU rendering can improve performance on some systems where GPU resources are limited or not available.
+
+5.  `options.add_argument("--disable-extensions")`: This line disables all browser extensions in the Chrome WebDriver. Browser extensions can interfere with testing or scraping tasks, and disabling them can help ensure more consistent results and improve performance.
+
+6.  `options.add_argument("--disable-dev-shm-usage")`: This line disables the usage of `/dev/shm` (shared memory) for the Chrome WebDriver. On some systems, especially in containerized environments, the size of `/dev/shm` might be too small, causing Chrome to crash or fail. Disabling `/dev/shm` usage makes Chrome use temporary files instead of shared memory, which can help prevent crashes and improve stability.i
