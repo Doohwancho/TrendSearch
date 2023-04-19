@@ -12,7 +12,7 @@ beautifulsoup4==4.11.1
 bleach @ file:///home/conda/feedstock_root/build_artifacts/bleach_1649361991009/work
 cached-property @ file:///home/conda/feedstock_root/build_artifacts/cached_property_1615209429212/work
 cachetools==5.1.0
-certifi==2022.5.18.1
+certifi==2022.12.7
 cffi @ file:///Users/runner/miniforge3/conda-bld/cffi_1636046166270/work
 charset-normalizer==2.0.12
 click==8.0.4
