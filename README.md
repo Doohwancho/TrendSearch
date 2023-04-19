@@ -15,16 +15,12 @@
 <br/>
 
 # Update
-ver 1.01
+
+## ver 1.01
 1. 영어기사 제거
 2. cmd창 숨김 기능 추가
-3. 부팅시 자동시작 설정
 
-ver 1.02
-.exe(배포판 생성)은... 에러.
-시도중.
-
-ver 1.03
+## ver 1.02
 1. dependencies -> requirements.txt
 2. refactor: depreciated code: webdriver.Chrome();
 3. refactor: relative path for AppleGothic.ttf font
