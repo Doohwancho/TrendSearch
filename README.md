@@ -10,19 +10,18 @@
 
 1. git clone https://github.com/Doohwancho/TrendSearch.py
 2. pip3 install -r requirements.txt
-3. python trendCloud.py
+3. python main.py
 
 <br/>
 
 # Update
 
 ## ver 1.01
-1. 영어기사 제거
-2. cmd창 숨김 기능 추가
-
-## ver 1.02
-1. dependencies -> requirements.txt
-2. refactor: depreciated code: webdriver.Chrome();
-3. refactor: relative path for AppleGothic.ttf font
-4. auto start on boot deleted due to inconveniency in setting
+1. feat: 영어기사 제거
+2. optimization: crawling 도중 command 창 숨김 기능 추가
+3. optimization: disable-gpu while crawling
+4. build: dependencies -> requirements.txt
+5. refactor: depreciated code: webdriver.Chrome();
+6. refactor: configuration option separated into config.py
+7. refactor: relative path for AppleGothic.ttf font
 
