@@ -1,4 +1,6 @@
+from numpy import number
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
@@ -53,33 +55,36 @@ def wordCloud(koreanWords):
     plt.show()
     return
 
-def crawler(driver, rawData, start = 2, end = 12):
-    for i in range(start, end):
+def crawler(driver, rawData, number_of_pages_to_crawl = 1):
+    for i in range(0, number_of_pages_to_crawl):
         s1 = driver.page_source
         s2 = BeautifulSoup(s1, "html.parser")
         s3 = s2.find("ul", class_="type06_headline")
         s4 = s3.find_all("a", class_="nclicks(fls.list)")
 
-        print(s1);
+        next_page_selector = "#main_content > div.paging > a:nth-child({})".format(i+2)
 
         for j in s4:
-            rawData.append(j.text)
+            # Check if the <a> tag contains an <img> tag
+            if j.find('img') is None:
+                # If no <img> tag is found, extract the title
+                text = j.get_text(strip=True)
+                rawData.append(text)
 
-        driver.find_element_by_css_selector("#main_content > div.paging > a:nth-child(" + str(i) + ")").click()
+        driver.find_element(By.CSS_SELECTOR, next_page_selector).click()
 
     return driver
 
 
 def crawling(driver):
     try:
-        numberOfPageToCrawl = CRAWLING_PAGE
         rawData = []
+        number_of_pages_to_crawl = NUMBER_OF_PAGES_TO_CRAWL
         driver.get("https://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001")
 
-        driver = crawler(driver,rawData)
-        while numberOfPageToCrawl > 1:
-            crawler(driver, rawData, 3,13)
-            numberOfPageToCrawl -= 1
+        while number_of_pages_to_crawl >= 1:
+            driver = crawler(driver, rawData, number_of_pages_to_crawl)
+            number_of_pages_to_crawl -= 1
 
         return rawData
     except:

@@ -30,3 +30,4 @@ python main.py
 6. refactor: configuration option separated into config.py
 7. refactor: relative path for AppleGothic.ttf font
 8. fix: selenium >= 4.10.0 supports Service that takes care of downloading latest compatible chrome driver
+9. fix: DEPRECATED - selenium 4.18.1 does not support find_element_by_css_selector()
