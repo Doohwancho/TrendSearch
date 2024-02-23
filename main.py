@@ -23,10 +23,11 @@ def get_chrome_options():
     return options
 
 def chromeDriverSetting():
+    service = Service()
     options = get_chrome_options()
     driver = None
     try:
-        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+        driver = webdriver.Chrome(service=service, options=options)
     except Exception as e:
         print(f"Error while installing ChromeDriver: {e}")
         exit()
@@ -58,6 +59,8 @@ def crawler(driver, rawData, start = 2, end = 12):
         s2 = BeautifulSoup(s1, "html.parser")
         s3 = s2.find("ul", class_="type06_headline")
         s4 = s3.find_all("a", class_="nclicks(fls.list)")
+
+        print(s1);
 
         for j in s4:
             rawData.append(j.text)
