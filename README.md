@@ -33,3 +33,17 @@ python main.py
 9. fix: DEPRECATED - selenium 4.18.1 does not support find_element_by_css_selector()
 10. fix: 10페이지 이상 크롤링 할 수 있도록 변경
 11. fix: 20페이지 이후 페이지 크롤링 시, 같은 페이지를 크롤링 하던 문제 해결
+12. performance: selenium + chrome deriver -> requests + parallel
+
+
+# Performance Optimization
+
+mac m1, 8 core, 1000 page crawling 기준
+
+1. selenium + chrome driver : 981,850ms (16m 21s 850ms)
+	- 364.97s user 74.30s system 44% cpu
+2. selenium + chrome driver(optimized) : 207,200ms (3m 27s 200ms)
+	- 83.69s user 16.64s system 48% cpu
+3. requests + parallel : 81,610ms (1m 21s 610ms)
+	- 115.20s user 25.51s system 172% cpu
+
