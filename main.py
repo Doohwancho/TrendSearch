@@ -62,7 +62,9 @@ def crawler(driver, rawData, number_of_pages_to_crawl = 1):
         s3 = s2.find("ul", class_="type06_headline")
         s4 = s3.find_all("a", class_="nclicks(fls.list)")
 
-        next_page_selector = "#main_content > div.paging > a:nth-child({})".format(i+2)
+        if(i >= 10):
+            i += 1; # 11페이지 부터는 '이전' 버튼이 생기기 때문에 +1을 해준다.
+        next_page_selector = "#main_content > div.paging > a:nth-child({})".format((i%10)+2) # first child is <strong>1</strong>. therefore, skip. second child is current page. therefore, skip.
 
         for j in s4:
             # Check if the <a> tag contains an <img> tag
@@ -81,10 +83,7 @@ def crawling(driver):
         rawData = []
         number_of_pages_to_crawl = NUMBER_OF_PAGES_TO_CRAWL
         driver.get("https://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001")
-
-        while number_of_pages_to_crawl >= 1:
-            driver = crawler(driver, rawData, number_of_pages_to_crawl)
-            number_of_pages_to_crawl -= 1
+        driver = crawler(driver, rawData, number_of_pages_to_crawl)
 
         return rawData
     except:
