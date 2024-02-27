@@ -21,7 +21,7 @@ python main.py
 
 # Update
 
-## ver 1.10
+## ver 1.11
 1. feat: 영어기사 제거
 2. feat: crawling 도중 command 창 숨김 기능 추가
 3. performance: chrome driver options
@@ -32,3 +32,4 @@ python main.py
 8. fix: selenium >= 4.10.0 supports Service that takes care of downloading latest compatible chrome driver
 9. fix: DEPRECATED - selenium 4.18.1 does not support find_element_by_css_selector()
 10. fix: 10페이지 이상 크롤링 할 수 있도록 변경
+11. fix: 20페이지 이후 페이지 크롤링 시, 같은 페이지를 크롤링 하던 문제 해결
