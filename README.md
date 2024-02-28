@@ -20,7 +20,7 @@ python main.py (prerequisites: python 3.8)
 
 # C. Update
 
-## ver 1.0.13
+## ver 1.0.14
 1. feat: 영어기사 제거
 2. feat: crawling 도중 command 창 숨김 기능 추가
 3. performance: chrome driver options
@@ -34,7 +34,7 @@ python main.py (prerequisites: python 3.8)
 11. fix: 20페이지 이후 페이지 크롤링 시, 같은 페이지를 크롤링 하던 문제 해결
 12. performance: selenium + chrome deriver -> requests + parallel
 13. performance: requests + parallel + preprocessing optimization
-
+14. feat: 날자를 파라미터로 넣으면 해당 날자를 크롤링 한다
 
 # D. Performance Optimization
 

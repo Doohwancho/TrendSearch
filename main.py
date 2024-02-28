@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import re
 from collections import defaultdict
 from operator import itemgetter
-
+import argparse
 
 def get_last_page_number():
     # Initial request to find the max_page_number
@@ -29,7 +29,7 @@ def get_last_page_number():
         print(f"Failed to retrieve the initial page. Status code: {response.status_code}")
         return
 
-def crawling_parallel():
+def crawling_parallel(date_to_crawl):
     max_page_number = NUMBER_OF_PAGES_TO_CRAWL
 
     all_titles = []  # Initialize an empty list to hold all titles
@@ -37,7 +37,7 @@ def crawling_parallel():
     # Crawl pages in parallel
     with ThreadPoolExecutor() as executor:
         # Submit all fetch tasks and create a future-to-page mapping
-        future_to_page = {executor.submit(fetch_page, page_number): page_number for page_number in range(1, max_page_number + 1)}
+        future_to_page = {executor.submit(fetch_page, page_number, date_to_crawl): page_number for page_number in range(1, max_page_number + 1)}
 
         # Process the results as they complete
         for future in as_completed(future_to_page):
@@ -54,11 +54,11 @@ def crawling_parallel():
     return crawled_data_in_string
 
 
-def fetch_page(page_number):
+def fetch_page(page_number, date_to_crawl):
     """
     Fetch and parse a single page, returning the titles found.
     """
-    url = f'https://news.naver.com/main/list.naver?mode=LSD&mid=sec&sid1=001&listType=summary&date=20240221&page={page_number}'
+    url = f'https://news.naver.com/main/list.naver?mode=LSD&mid=sec&sid1=001&listType=summary&date={date_to_crawl}&page={page_number}'
     response = requests.get(url)
     titles = []
 
@@ -105,9 +105,20 @@ def custom_word_count(words):
     return fused_cases
 
 def main():
+     # Create an ArgumentParser object
+    parser = argparse.ArgumentParser(description='Crawl pages and generate a word cloud.')
+
+    # Add the -date or -d argument
+    parser.add_argument('-date', '-d', help='Date in YYYYMMDD format', required=True)
+
+    # Parse the command-line arguments
+    args = parser.parse_args()
+
+    # Extract the date argument
+    date_to_crawl = args.date
     # max_page_number = get_last_page_number()
 
-    crawled_data_in_string = crawling_parallel()
+    crawled_data_in_string = crawling_parallel(date_to_crawl)
 
     korean_words = preprocess_data(crawled_data_in_string)
 
