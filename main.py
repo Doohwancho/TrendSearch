@@ -1,26 +1,29 @@
+from numpy import number
 import requests
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from bs4 import BeautifulSoup
+import threading
 from bs4 import BeautifulSoup
 from wordcloud import WordCloud
-from config import *
 import matplotlib.pyplot as plt
 import re
 from collections import defaultdict
 from operator import itemgetter
 import argparse
+from datetime import datetime
+from config import *
 
-def get_last_page_number():
+def get_last_page_number(date_to_crawl):
     # Initial request to find the max_page_number
-    initial_url = 'https://news.naver.com/main/list.naver?mode=LSD&mid=sec&sid1=001&listType=summary&date=20240221&page=10000'
+    initial_url = f'https://news.naver.com/main/list.naver?mode=LSD&mid=sec&sid1=001&listType=summary&date={date_to_crawl}&page=10000'
     response = requests.get(initial_url)
 
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
-        pagination_strong_tag = soup.select_one('.paging strong')
+        pagination_strong_tag = soup.select_one('#main_content .paging strong')
+
         if pagination_strong_tag:
             max_page_number = int(pagination_strong_tag.text.strip())
-            print(f"Max page number: {max_page_number}")
+            # print(f"Max page number: {max_page_number}")
             return max_page_number
         else:
             print("Could not find the last pagination number.")
@@ -29,9 +32,7 @@ def get_last_page_number():
         print(f"Failed to retrieve the initial page. Status code: {response.status_code}")
         return
 
-def crawling_parallel(date_to_crawl):
-    max_page_number = NUMBER_OF_PAGES_TO_CRAWL
-
+def crawling_parallel(date_to_crawl, max_page_number):
     all_titles = []  # Initialize an empty list to hold all titles
 
     # Crawl pages in parallel
@@ -64,8 +65,10 @@ def fetch_page(page_number, date_to_crawl):
 
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
+
         titles1 = soup.select('.newsflash_body .type06_headline li dl dt:not(.photo) a')
         titles2 = soup.select('.newsflash_body .type06 li dl dt:not(.photo) a')
+
         titles = [title.get_text(strip=True) for title in titles1 + titles2]
     else:
         print(f"Failed to retrieve page {page_number}. Status code: {response.status_code}")
@@ -105,20 +108,25 @@ def custom_word_count(words):
     return fused_cases
 
 def main():
-     # Create an ArgumentParser object
     parser = argparse.ArgumentParser(description='Crawl pages and generate a word cloud.')
-
-    # Add the -date or -d argument
-    parser.add_argument('-date', '-d', help='Date in YYYYMMDD format', required=True)
-
-    # Parse the command-line arguments
+    parser.add_argument('-date', '-d', help='Date in YYYYMMDD format', required=False)
+    parser.add_argument('--page', '-p', type=int, help='Number of pages to crawl', required=False)
     args = parser.parse_args()
 
-    # Extract the date argument
     date_to_crawl = args.date
-    # max_page_number = get_last_page_number()
 
-    crawled_data_in_string = crawling_parallel(date_to_crawl)
+    if(date_to_crawl is None):
+        today = datetime.now()
+        formatted_today = today.strftime('%Y%m%d')
+        date_to_crawl = formatted_today
+
+    number_of_pages_to_crawl = args.page
+
+    if(number_of_pages_to_crawl is None):
+        number_of_pages_to_crawl = get_last_page_number(date_to_crawl)
+        # number_of_pages_to_crawl = 1
+
+    crawled_data_in_string = crawling_parallel(date_to_crawl, number_of_pages_to_crawl)
 
     korean_words = preprocess_data(crawled_data_in_string)
 
@@ -127,6 +135,7 @@ def main():
 
     # draw wordcloud
     word_cloud(frequency_dictionary)
+
 
 if __name__ == "__main__":
     main()

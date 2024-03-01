@@ -8,6 +8,7 @@
 
 # B. How to install and run?
 
+## a. how to install?
 ```
 git clone https://github.com/Doohwancho/TrendSearch
 cd TrendSearch
@@ -15,12 +16,23 @@ pip3 install -r requirements.txt
 python main.py (prerequisites: python 3.8)
 ```
 
+## b. how to run?
+```
+1) set number of pages to crawl
+python main.py -p 10
+python main.py -page 20
+```
 
+```
+2) set date to crawl (default is today)
+python main.py -d 20240228
+python main.py -date 20240228
+```
 <br/>
 
 # C. Update
 
-## ver 1.0.14
+## ver 1.0.15
 1. feat: 영어기사 제거
 2. feat: crawling 도중 command 창 숨김 기능 추가
 3. performance: chrome driver options
@@ -35,6 +47,7 @@ python main.py (prerequisites: python 3.8)
 12. performance: selenium + chrome deriver -> requests + parallel
 13. performance: requests + parallel + preprocessing optimization
 14. feat: 날자를 파라미터로 넣으면 해당 날자를 크롤링 한다
+15. feat: 페이지 수를 파라미터로 넣으면 해당 페이지 수 만큼 크롤링 한다.
 
 # D. Performance Optimization
 
